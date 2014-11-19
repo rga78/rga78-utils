@@ -5,13 +5,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import java.io.Writer;
+import java.io.IOException;
+
 /**
  * Pretty-print JSON.
  * 
  * Usage: new JSONTrace(Map or List).toString()
- * or: JSONTrace.prettyPrint(Map or List).
+ *
+ * Usage: JSONTrace.prettyPrint(Map or List).
+ *
+ * Usage: Writer writer = JSONTrace.write( Map or List, new BufferedWriter( ... ) );
  * 
  * TODO: comparators for ordering keys
+ * TODO: need test
  */
 public class JSONTrace {
     
@@ -27,6 +34,28 @@ public class JSONTrace {
      */
     public static String prettyPrint(List list) {
         return new JSONTrace(list).toString();
+    }
+
+    /**
+     * @param map the JSON object
+     * @param writer the destination
+     *
+     * @return writer
+     */
+    public static Writer write(Map map, Writer writer) throws IOException {
+        writer.write( prettyPrint(map) );
+        return writer;
+    }
+
+    /**
+     * @param list the JSON array 
+     * @param writer the destination
+     *
+     * @return writer
+     */
+    public static Writer write(List list, Writer writer) throws IOException {
+        writer.write( prettyPrint(list) );
+        return writer;
     }
 
     private String tab = " ";

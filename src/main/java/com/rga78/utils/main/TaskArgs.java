@@ -75,12 +75,39 @@ public class TaskArgs extends HashMap<String, Object> {
     }
 
     /**
+     * @return the long value associated with the given arg.
+     * 
+     * @throws IllegalArgumentException if the value is not specified.
+     */
+    public Long getRequiredLongValue(String argName) {
+        Long retMe = getLongValue(argName, null);
+        
+        if ( retMe == null ) {
+            throw new ArgumentRequiredException(argName);
+        }
+        
+        return retMe;
+    }
+    
+    /**
      * @return the long value associated with the given arg
      */
     public Integer getIntValue(String argName, Integer defaultValue) {
         String val = getStringValue(argName);
         return ( val != null) ? new Integer( val ) : defaultValue;
     }
+    
+    // TODO: /**
+    // TODO:  * @return the value associated with the given arg.
+    // TODO:  */
+    // TODO: public String getOrPromptForMaskedValue(String argName, ConsoleWrapper console, String prompt) {
+    // TODO:     String retMe = getStringValue(argName);
+    // TODO:     if (retMe == null) {
+    // TODO:         retMe = console.readMaskedText(prompt);
+    // TODO:         put(argName, retMe);    // save for later.
+    // TODO:     }
+    // TODO:     return retMe;
+    // TODO: }
     
     /**
      * @return true if the given argName was specified (i.e exists in the map).
